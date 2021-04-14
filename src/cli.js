@@ -17,13 +17,13 @@ const inspector = new SolidityInspector(new ethers.providers.InfuraProvider("hom
 
 //https://etherscan.io/address/0x923be051f75b4f5494d45e2ce2dda6abb6c1713b#code
 
-function summarize(resolvedVars){
+function summarize(resolvedVars) {
     resolvedVars.forEach(v => {
         let value = v.decoded.value;
-        if(typeof value === "function") {value = "<func>"}
-        else if (typeof value === "array"){
+        if (typeof value === "function") { value = "<func>" }
+        else if (typeof value === "array") {
 
-           
+
         }
         console.log(`${v.decoded.type} ${v.var.label} = ${value} \t\t// slot(base)=${v.var.slot}`);
     })

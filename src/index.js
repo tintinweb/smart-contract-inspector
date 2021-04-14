@@ -7,7 +7,7 @@
  * */
 const solc = require('solc');
 const web3 = require('web3');
-const {solcVersions} = require('./solcVersions');
+const { solcVersions } = require('./solcVersions');
 
 
 function getSolidityVersion(source) {
