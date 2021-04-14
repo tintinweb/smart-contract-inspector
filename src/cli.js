@@ -22,10 +22,10 @@ function summarize(resolvedVars) {
         let value = v.decoded.value;
         if (typeof value === "function") { value = "<func>" }
         else if (typeof value === "array") {
-
+            //fix promises in output :/
 
         }
-        console.log(`${v.decoded.type} ${v.var.label} = ${value} \t\t// slot(base)=${v.var.slot}`);
+        console.log(`${v.decoded.type} ${v.var.label}${v.decoded.length?"["+v.decoded.length+"]":""} = ${value} \t\t// slot(base)=${v.var.slot}`);
     })
 }
 
