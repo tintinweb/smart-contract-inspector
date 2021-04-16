@@ -84,7 +84,7 @@ class Decoder {
                         let len = selBytes[selBytes.length - 1] / 2
                         return {
                             type: svarType.label,
-                            value: web3.utils.hexToUtf8(web3.utils.bytesToHex(selBytes.slice(0, len)))
+                            value: web3.utils.hexToAscii(web3.utils.bytesToHex(selBytes.slice(0, len)))
                         }
                     case "bool":
                         return {
