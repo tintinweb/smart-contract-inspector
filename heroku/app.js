@@ -14,7 +14,7 @@ function summarize(resolvedVars) {
         let value = v.decoded.value;
         if (typeof value === "function") { value = "&lt;func&gt;" }
         else if (typeof value === "array") {
-            //fix promises in output :/
+            //fix promises in output :/ 
 
         }
         result.push(`/* slot ${v.var.slot}*/\t ${v.decoded.type} ${v.var.label}${v.decoded.length?"["+v.decoded.length+"]":""} = ${value}`);
