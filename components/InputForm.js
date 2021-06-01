@@ -13,6 +13,29 @@ const InputForm = ({ setSummary }) => {
     console.log(contractName, contractAddress, sourceCode)
   }
 
+  const handleFetchCodeFromEtherscan = async () => {
+    
+    try {
+      const response = await axios.get(
+        `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
+      )
+
+      if (response?.data?.result?.length && response.data.result.length > 0) {
+        const [{ ContractName, SourceCode }] = response.data.result
+
+        if (ContractName) {
+          setContractName(ContractName)
+        }
+        if (SourceCode) {
+          setSourceCode(SourceCode)
+        }
+      }
+    } catch (e) {
+      console.error('Unable to fetch source code from Etherscan')
+      console.debug('Error: ', e)
+    }
+  }
+
   const handleGetData = async () => {
     if (window !== undefined) {
       const host = window.location.host
@@ -24,7 +47,7 @@ const InputForm = ({ setSummary }) => {
         const response = await axios.post(
           endpoint,
           {
-            address: '0x'+contractAddress,
+            address: '0x' + contractAddress,
             target: contractName,
             source: sourceCode,
           },
@@ -93,6 +116,7 @@ const InputForm = ({ setSummary }) => {
                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
                 </div>
+                <button onClick={handleFetchCodeFromEtherscan}>Load!</button>
               </div>
             </div>
 
@@ -149,16 +173,6 @@ const InputForm = ({ setSummary }) => {
           >
             Clear
           </button>
-          {/* <Link
-            href={{
-              pathname: '/report',
-              query: {
-                address: contractAddress,
-                source: sourceCode,
-                target: contractName,
-              },
-            }}
-          > */}
           <button
             onClick={handleGetData}
             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
