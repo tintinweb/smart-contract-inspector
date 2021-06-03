@@ -80,6 +80,10 @@ const InputForm = ({ setSummary }) => {
     setSourceCode('')
   }
 
+  const handleOpenEtherscanPopupForContractAddress = async () => {
+    window.open('https://etherscan.io/address/'+document.getElementById('contract_address').value)
+  }
+
   return (
     <div className="mt-8 space-y-8 divide-y divide-gray-200">
       <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
@@ -117,6 +121,7 @@ const InputForm = ({ setSummary }) => {
                   />
                 </div>
                 <button onClick={handleFetchCodeFromEtherscan}>Load!</button>
+                <button onClick={handleOpenEtherscanPopupForContractAddress}>🌐 Etherscan</button>
               </div>
             </div>
 
