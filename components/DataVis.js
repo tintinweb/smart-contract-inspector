@@ -28,8 +28,8 @@ const MappingValue = ({ variable }) => {
           </label>
           <input
             type="text"
-            name="email"
-            id="email"
+            name="q"
+            id="q"
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="Enter search key"
             value={query}
@@ -54,7 +54,7 @@ const MappingValue = ({ variable }) => {
 }
 
 export const ScalarValue = ({ variable, nested=false }) => {
-  if(!variable.value && nested) {
+  if(typeof variable.value !=="boolean" && !variable.value && nested) {
     return null
   }
   return (
@@ -64,7 +64,7 @@ export const ScalarValue = ({ variable, nested=false }) => {
           className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
           aria-hidden="true"
         />
-        <p>{variable.value || 'n/a'}</p>
+        <p>{typeof variable.value !== "undefined" ? variable.value.toString() : 'n/a'}</p>
       </div>
     </div>
   )
