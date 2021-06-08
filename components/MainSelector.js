@@ -31,7 +31,6 @@ import {
 } from '@heroicons/react/outline'
 
 import { Fragment } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const actions = [

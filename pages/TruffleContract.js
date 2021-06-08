@@ -31,6 +31,7 @@ export default function Example() {
   const [summary, setSummary] = useState()
   const [contracts, setContracts] = useState([])
   const [selectedContract, setSelectedContract] = useState()
+  const [rpcUrl, setRpcUrl] = useState('ws://localhost:7545')
 
   const onFileChange = async (buildArtifacts = []) => {
     // setBuildArtifacts(buildArtifacts)
@@ -71,17 +72,64 @@ export default function Example() {
             contracts={contracts}
             setSelectedContract={setSelectedContract}
           />
-          {selectedContract ? <InputFormTruffle
-            setSummary={setSummary}
-            selectedContractAddress={getTruffleArtifactContractAddress(
-              selectedContract
-            )}
-            selectedContractName={selectedContract.contractName}
-            selectedContractSourceCode={selectedContract.source}
-          /> : undefined}
-          {summary && <DataVis data={summary} />}
+          {selectedContract ? (
+            <>
+              <GatewayInput rpcUrl={rpcUrl} setRpcUrl={setRpcUrl}/>
+              <InputFormTruffle
+                setSummary={setSummary}
+                selectedContractAddress={getTruffleArtifactContractAddress(
+                  selectedContract
+                )}
+                selectedContractName={selectedContract.contractName}
+                selectedContractSourceCode={selectedContract.source}
+              />
+            </>
+          ) : undefined}
+          {summary && (
+            <DataVis data={summary} localProviderUrl={rpcUrl} />
+          )}
         </div>
       </main>
+    </div>
+  )
+}
+
+/*
+  This example requires Tailwind CSS v2.0+ 
+  
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ]
+  }
+  ```
+*/
+const GatewayInput = ({rpcUrl, setRpcUrl}) => {
+  return (
+    <div className="my-8">
+      <label
+        htmlFor="eth_gateway_url"
+        className="block text-sm font-medium text-gray-700"
+      >
+        Eth RPC URL
+      </label>
+      <div className="mt-1 relative rounded-md shadow-sm">
+        
+        <input
+          type="text"
+          name="eth_gateway_url"
+          id="eth_gateway_url"
+          className="focus:ring-indigo-500 focus:border-indigo-500 block w-full  sm:text-sm border-gray-300 rounded-md"
+          value={rpcUrl}
+          onChange={(e) => setRpcUrl(e.target.value)}
+        />
+      </div>
     </div>
   )
 }

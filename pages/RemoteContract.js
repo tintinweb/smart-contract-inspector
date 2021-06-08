@@ -40,7 +40,6 @@ export default function Example() {
       <main>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <InputForm setSummary={setSummary} />
-          <FileSelector onFileChange={() => {}} />
           {summary && <DataVis data={summary} />}
         </div>
       </main>
