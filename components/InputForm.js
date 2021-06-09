@@ -1,7 +1,10 @@
+import { useLayoutEffect, useState } from 'react'
+
 import Link from 'next/link'
+import SourceCode from './SourceCode'
 import axios from 'axios'
 import { example } from '../lib/example'
-import { useState } from 'react'
+
 const InputForm = ({ setSummary }) => {
   const [contractAddress, setContractAddress] = useState(
     '923be051f75b4f5494d45e2ce2dda6abb6c1713b'
@@ -14,7 +17,6 @@ const InputForm = ({ setSummary }) => {
   }
 
   const handleFetchCodeFromEtherscan = async () => {
-    
     try {
       const response = await axios.get(
         `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
@@ -81,7 +83,10 @@ const InputForm = ({ setSummary }) => {
   }
 
   const handleOpenEtherscanPopupForContractAddress = async () => {
-    window.open('https://etherscan.io/address/'+document.getElementById('contract_address').value)
+    window.open(
+      'https://etherscan.io/address/' +
+        document.getElementById('contract_address').value
+    )
   }
 
   return (
@@ -119,13 +124,19 @@ const InputForm = ({ setSummary }) => {
                     autoComplete="contract_address"
                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
-                
-                <button 
-                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={handleFetchCodeFromEtherscan}>Load!</button>
-                <button 
-                  className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={handleOpenEtherscanPopupForContractAddress}>🌐</button>
+
+                  <button
+                    className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={handleFetchCodeFromEtherscan}
+                  >
+                    Load!
+                  </button>
+                  <button
+                    className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={handleOpenEtherscanPopupForContractAddress}
+                  >
+                    🌐
+                  </button>
                 </div>
               </div>
             </div>
@@ -151,25 +162,7 @@ const InputForm = ({ setSummary }) => {
                 </div>
               </div>
             </div>
-
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label
-                htmlFor="about"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Contract Code
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <textarea
-                  value={sourceCode}
-                  onChange={(e) => setSourceCode(e.target.value)}
-                  id="contract_code"
-                  name="contract_code"
-                  rows={10}
-                  className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
+            <SourceCode sourceCode={sourceCode} setSourceCode={setSourceCode} />
           </div>
         </div>
       </div>
