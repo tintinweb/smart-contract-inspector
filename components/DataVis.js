@@ -43,7 +43,6 @@ const MappingValue = ({ variable }) => {
         >
           Search
         </button>
-        {/* <p>{responseValue}</p> */}
         
       </div>
       <div className="mt-3 ml-3">
@@ -78,7 +77,15 @@ export const ArrayValue = ({ variable }) => {
           className="self-start flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
           aria-hidden="true"
         />
-        <DynamicReactJson src={variable.value} />
+        <DynamicReactJson 
+        name={false} 
+        collapsed={true}
+        src={variable.value.map(i => 
+          {
+            delete i.slotDataSelection
+            return i
+          }
+          )} />
       </div>
     </div>
   )
@@ -123,20 +130,9 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
       )
   
     }
-
-    // c = new SolidityInspector(
-    //       new ethers.providers.WebSocketProvider (
-    //         "ws://localhost:8545"
-    //         // "wss://mainnet.infura.io/ws/v3/43a4a59391c94a2cbdfec335591e9f71"
-    //       ),
-    //       storageLayout,
-    //       address
-    //     )
-    
-    window.c = c
     const results = await c.getVars(address)
     const summaryObj = await summarizeObj(results)
-    console.log('Summary, ', summaryObj)
+    window.summaryObj = summaryObj
     setDecodedData(summaryObj)
   }
 
@@ -168,10 +164,6 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
                   </div>
                 </div>
                 <div className="ml-5 flex-shrink-0">
-                  {/* <ChevronDownIcon
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  /> */}
                 </div>
               </div>
             </li>
