@@ -94,7 +94,7 @@ const renderValue = ({ variable, nested=false }) => {
   }
 }
 
-const DataVis = ({ data }) => {
+const DataVis = ({ data, localProviderUrl = undefined }) => {
   const { storageLayout, address } = data
   console.log('Decoding data')
   const [decodedData, setDecodedData] = useState([])
@@ -103,14 +103,36 @@ const DataVis = ({ data }) => {
     const { SolidityInspector } = require('../lib/SolidityInspector')
     const ethers = require('ethers')
 
-    const c = new SolidityInspector(
-      new ethers.providers.InfuraProvider(
-        'homestead',
-        '43a4a59391c94a2cbdfec335591e9f71'
-      ),
-      storageLayout,
-      address
-    )
+    let c 
+    if(!localProviderUrl){
+      c = new SolidityInspector(
+        new ethers.providers.InfuraProvider(
+          'homestead',
+          '43a4a59391c94a2cbdfec335591e9f71'
+        ),
+        storageLayout,
+        address
+      )
+    } else {
+      c = new SolidityInspector(
+        new ethers.providers.WebSocketProvider (
+          localProviderUrl
+        ),
+        storageLayout,
+        address
+      )
+  
+    }
+
+    // c = new SolidityInspector(
+    //       new ethers.providers.WebSocketProvider (
+    //         "ws://localhost:8545"
+    //         // "wss://mainnet.infura.io/ws/v3/43a4a59391c94a2cbdfec335591e9f71"
+    //       ),
+    //       storageLayout,
+    //       address
+    //     )
+    
     window.c = c
     const results = await c.getVars(address)
     const summaryObj = await summarizeObj(results)
