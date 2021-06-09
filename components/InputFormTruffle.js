@@ -4,6 +4,13 @@ import Link from 'next/link'
 import axios from 'axios'
 import { example } from '../lib/example'
 
+const sanitinseContractAddress = (address) => {
+  if (address.indexOf('0x') > -1) {
+    return address.slice(2)
+  }
+  return address
+}
+
 const InputFormTruffle = ({
   setSummary,
   selectedContractAddress,
@@ -17,13 +24,13 @@ const InputFormTruffle = ({
    * changeable by the user, but we also want them to update when the props change.
    */
   const [contractAddress, setContractAddress] = useState(
-    selectedContractAddress
+    sanitinseContractAddress(selectedContractAddress)
   )
   const [contractName, setContractName] = useState(selectedContractName)
   const [sourceCode, setSourceCode] = useState(selectedContractSourceCode)
 
   useEffect(() => {
-    setContractAddress(selectedContractAddress)
+    setContractAddress(sanitinseContractAddress(selectedContractAddress))
     setContractName(selectedContractName)
     setSourceCode(selectedContractSourceCode)
   }, [
@@ -87,13 +94,13 @@ const InputFormTruffle = ({
   }
 
   const handleContractAddress = (e) => {
-    let address
-    if (e.target.value.indexOf('0x') > -1) {
-      address = e.target.value.slice(2)
-    } else {
-      address = e.target.value
-    }
-    setContractAddress(address)
+    // let address
+    // if (e.target.value.indexOf('0x') > -1) {
+    //   address = e.target.value.slice(2)
+    // } else {
+    //   address = e.target.value
+    // }
+    setContractAddress(sanitinseContractAddress(address))
   }
 
   const handleClear = () => {

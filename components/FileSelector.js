@@ -10,9 +10,9 @@ const baseStyle = {
     padding: '20px',
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: '#eeeeee',
+    borderColor: 'rgb(107, 114, 128)',
     borderStyle: 'dashed',
-    color: 'white',
+    color: 'rgb(107, 114, 128)',
     outline: 'none',
     transition: 'border .24s ease-in-out',
     fontSize: "18px"
@@ -82,7 +82,7 @@ export const FileSelector = ({ onFileChange, ...props }) => {
     return (
         <section className="container">
 
-            <div {...getRootProps({ className: 'dropzone', style })}>
+            <div {...getRootProps({ className: 'dropzone mt-8 mb-2', style })}>
                 <input {...getInputProps()} />
                 <p>Drag 'n' drop your project folder here, or click to select files</p>
             </div>

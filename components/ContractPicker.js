@@ -1,61 +1,26 @@
 import { useEffect, useState } from 'react'
 
 import { RadioGroup } from '@headlessui/react'
-
-const plans = [
-  {
-    contractName: 'Startup',
-    network: {
-      5777: {
-        events: {},
-        links: {
-          ConvertLib: '0xb5646627060c0905765d5E03cd225bc9cC5F7561',
-        },
-        address: '0x3BE9fA06e2F69A431304206f83A8f12F59b76bC6',
-        transactionHash:
-          '0x5f5e90d212f540870cc6e881353455e1e7f1e21a69ef693dad19336c9f4f634a',
-      },
-    },
-    source: 290,
-    sourcePath:
-      '/Users/boss/git/mythx/truffle-projects/metacoin/contracts/MetaCoin.sol',
-  },
-  {
-    contractName: 'Business',
-    network: {
-      5777: {
-        events: {},
-        links: {
-          ConvertLib: '0xb5646627060c0905765d5E03cd225bc9cC5F7561',
-        },
-        address: '0x3BE9fA06e2F69A431304206f83A8f12F59b76bC6',
-        transactionHash:
-          '0x5f5e90d212f540870cc6e881353455e1e7f1e21a69ef693dad19336c9f4f634a',
-      },
-    },
-    source: 990,
-    sourcePath:
-      '/Users/boss/git/mythx/truffle-projects/metacoin/contracts/MetaCoin.sol',
-  },
-]
-
-// return { contractName, abi, sourcePath, source, networks }
+import { fetchNetwork } from '../lib/utils'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function ContractPicker({ contracts, setSelectedContract=()=> {} }) {
+export default function ContractPicker({
+  contracts,
+  setSelectedContract = () => {},
+}) {
   const [selected, setSelected] = useState()
 
   const onChange = (e) => {
-      setSelected(e)
-      setSelectedContract(e)
-      console.log("selected ",e)
+    setSelected(e)
+    setSelectedContract(e)
+    console.log('selected ', e)
   }
 
-  if(!contracts || contracts.length === 0) {
-      return <span/>
+  if (!contracts || contracts.length === 0) {
+    return <span />
   }
 
   return (
@@ -79,7 +44,7 @@ export default function ContractPicker({ contracts, setSelectedContract=()=> {} 
               className={({ checked }) =>
                 classNames(
                   planIdx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
-                  planIdx === plans.length - 1
+                  planIdx === contracts.length - 1
                     ? 'rounded-bl-md rounded-br-md'
                     : '',
                   checked
@@ -118,7 +83,7 @@ export default function ContractPicker({ contracts, setSelectedContract=()=> {} 
                           checked ? 'text-indigo-700' : 'text-gray-500'
                         }
                       >
-                        {plan?.networks?.[5777]?.address}
+                        {fetchNetwork(plan.networks)?.address}
                       </span>
                     </RadioGroup.Description>
                     <RadioGroup.Description
