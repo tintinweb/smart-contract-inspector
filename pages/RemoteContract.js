@@ -7,7 +7,6 @@ import { FileSelector } from '../components/FileSelector'
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import InputForm from '../components/InputForm'
-import MainSelector from '../components/MainSelector'
 
 const user = {
   name: 'Tom Cook',
@@ -39,8 +38,9 @@ export default function Example() {
         </div>
       </header>
       <main>
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-10">
-          <MainSelector/>
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <InputForm setSummary={setSummary} />
+          {summary && <DataVis data={summary} />}
         </div>
       </main>
     </div>

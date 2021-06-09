@@ -1,20 +1,49 @@
+import { useEffect, useState } from 'react'
+
 import Link from 'next/link'
 import axios from 'axios'
 import { example } from '../lib/example'
-import { useState } from 'react'
-const InputForm = ({ setSummary }) => {
+
+const sanitinseContractAddress = (address) => {
+  if (address.indexOf('0x') > -1) {
+    return address.slice(2)
+  }
+  return address
+}
+
+const InputFormTruffle = ({
+  setSummary,
+  selectedContractAddress,
+  selectedContractName,
+  selectedContractSourceCode,
+}) => {
+  /**
+   * The contract state variables are declared with useState,
+   * but are also updated on the useEffect below when the values passed to the
+   * component are changed. This is done because we want these values to be
+   * changeable by the user, but we also want them to update when the props change.
+   */
   const [contractAddress, setContractAddress] = useState(
-    '923be051f75b4f5494d45e2ce2dda6abb6c1713b'
+    sanitinseContractAddress(selectedContractAddress)
   )
-  const [contractName, setContractName] = useState('UniqVesting')
-  const [sourceCode, setSourceCode] = useState(example)
+  const [contractName, setContractName] = useState(selectedContractName)
+  const [sourceCode, setSourceCode] = useState(selectedContractSourceCode)
+
+  useEffect(() => {
+    setContractAddress(sanitinseContractAddress(selectedContractAddress))
+    setContractName(selectedContractName)
+    setSourceCode(selectedContractSourceCode)
+  }, [
+    selectedContractAddress,
+    selectedContractName,
+    selectedContractSourceCode,
+  ])
 
   const handleSubmit = (event) => {
     console.log(contractName, contractAddress, sourceCode)
   }
 
   const handleFetchCodeFromEtherscan = async () => {
-    
     try {
       const response = await axios.get(
         `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
@@ -65,13 +94,13 @@ const InputForm = ({ setSummary }) => {
   }
 
   const handleContractAddress = (e) => {
-    let address
-    if (e.target.value.indexOf('0x') > -1) {
-      address = e.target.value.slice(2)
-    } else {
-      address = e.target.value
-    }
-    setContractAddress(address)
+    // let address
+    // if (e.target.value.indexOf('0x') > -1) {
+    //   address = e.target.value.slice(2)
+    // } else {
+    //   address = e.target.value
+    // }
+    setContractAddress(sanitinseContractAddress(address))
   }
 
   const handleClear = () => {
@@ -185,4 +214,4 @@ const InputForm = ({ setSummary }) => {
     </div>
   )
 }
-export default InputForm
+export default InputFormTruffle
