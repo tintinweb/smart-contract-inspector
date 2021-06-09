@@ -94,12 +94,6 @@ const InputFormTruffle = ({
   }
 
   const handleContractAddress = (e) => {
-    // let address
-    // if (e.target.value.indexOf('0x') > -1) {
-    //   address = e.target.value.slice(2)
-    // } else {
-    //   address = e.target.value
-    // }
     setContractAddress(sanitinseContractAddress(address))
   }
 
