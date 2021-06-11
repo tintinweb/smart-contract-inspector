@@ -40,7 +40,9 @@ export default function Example() {
       <main>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <InputForm setSummary={setSummary} />
-          {summary && <DataVis data={summary} />}
+          {summary && summary.storageLayout.map((item, i) => {
+            return <DataVis key={'datavis-' + i} data={item.data} />
+          })}
         </div>
       </main>
     </div>

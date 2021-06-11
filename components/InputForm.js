@@ -59,7 +59,12 @@ const InputForm = ({ setSummary }) => {
             },
           }
         )
-        setSummary(response.data.summaryObj)
+        // setSummary(response.data)
+        setSummary({
+          address: response.data.address,
+          storageLayout: response.data.storageLayout,
+        })
+        console.log(response.data)
       } catch (e) {
         console.error(e)
       }

@@ -29,7 +29,7 @@ export default async (req, res) => {
       console.timeEnd('compile')
 
       console.time('http-request-3')
-      res.status(200).json({ summaryObj: {storageLayout, address} })
+      res.status(200).json({storageLayout, address})
       console.timeEnd('http-request-3')
       console.timeEnd('http-request')
     } catch (e) {
