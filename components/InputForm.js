@@ -1,5 +1,8 @@
 import { useLayoutEffect, useState } from 'react'
 
+import {
+  ExternalLinkIcon,
+} from '@heroicons/react/solid'
 import Link from 'next/link'
 import SourceCode from './SourceCode'
 import axios from 'axios'
@@ -124,18 +127,18 @@ const InputForm = ({ setSummary }) => {
                     autoComplete="contract_address"
                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
-
                   <button
                     className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={handleFetchCodeFromEtherscan}
                   >
-                    Load!
+                    Load
                   </button>
                   <button
-                    className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="ml-3 inline-flex bg-white justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={handleOpenEtherscanPopupForContractAddress}
                   >
-                    🌐
+                    See in Etherscan
+                    <ExternalLinkIcon className="h-5 w-5 ml-1" />
                   </button>
                 </div>
               </div>

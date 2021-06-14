@@ -25,8 +25,9 @@ import {
     AcademicCapIcon,
     BadgeCheckIcon,
     CashIcon,
-    ClockIcon,
+    GlobeAltIcon,
     ReceiptRefundIcon,
+    UploadIcon,
     UsersIcon,
 } from '@heroicons/react/outline'
 
@@ -37,15 +38,15 @@ const actions = [
     {
       title: 'Local Contract (Truffle + Ganache Project)',
       href: '/TruffleContract',
-      icon: ClockIcon,
-      iconForeground: 'text-teal-700',
-      iconBackground: 'bg-teal-50',
+      icon: UploadIcon,
+      iconForeground: 'text-pink-700',
+      iconBackground: 'bg-pink-50',
       description: "Load your contracts directly from your local truffle project."
     },
     {
         title: 'Remote Contract (mainnet)',
         href: '/RemoteContract',
-      icon: BadgeCheckIcon,
+      icon: GlobeAltIcon,
       iconForeground: 'text-purple-700',
       iconBackground: 'bg-purple-50',
       description: "Load a contract deployed on Mainnet directly from Etherscan (if the contract has verified source), or manually provide the contract name and source code."
