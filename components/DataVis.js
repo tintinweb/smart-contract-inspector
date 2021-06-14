@@ -142,7 +142,7 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
     <>
       <div className="pb-5 mb-8 border-b border-gray-200">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Cool Data
+          Decoded Storage Data
         </h3>
       </div>
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
