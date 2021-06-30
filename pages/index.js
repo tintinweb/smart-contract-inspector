@@ -36,11 +36,19 @@ export default function Example() {
           <h1 className="text-3xl font-bold leading-tight text-gray-900">
             🕵️‍♂️ Smart C🔎ntract Inspector
           </h1>
+          <h2>
+          The magic X-ray machine for Smart Contracts
+          </h2>
         </div>
       </header>
       <main>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-10">
           <MainSelector/>
+        </div>
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-10">
+        🏆 Proud Winner of the <b>Developer Enablement</b> category at the <a href='https://consensys.net/blog/events-and-conferences/cypherpunk-2021-consensys-internal-hackathon/'>ConsensSys Cypherpunkt 2021 Hackathon</a>!
+        <br/><br/>
+        <a href='https://consensys.net/blog/events-and-conferences/cypherpunk-2021-consensys-internal-hackathon/'><img src='https://cdn.consensys.net/uploads/2021/06/02135601/Cypher-Punk-ConsenSys-Internal-Hackathon-2021.png'/></a>
         </div>
       </main>
     </div>

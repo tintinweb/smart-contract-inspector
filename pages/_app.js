@@ -18,6 +18,7 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
+  { name: 'ConsenSys Diligence', href: 'https://consensys.net/diligence/', current: false, img:'https://user-images.githubusercontent.com/2865694/56826101-91dcf380-685b-11e9-937c-af49c2510aa0.png' },
   { name: 'Truffle Project', href: '/TruffleContract', current: true },
   { name: 'Mainnet Project', href: '/RemoteContract', current: false },
 ]
@@ -73,7 +74,7 @@ function MyApp({ Component, pageProps }) {
                             router.pathname === item.href ? 'page' : undefined
                           }
                         >
-                          {item.name}
+                          {item.img ? (<img src={item.img} alt="ConsenSys Diligence" style={{height:45}} />) : item.name}
                         </a>
                       ))}
                     </div>
