@@ -1,0 +1,469 @@
+[
+  '_bonus',
+  '_initialized',
+  '_tokensTotal',
+  '_pctWithdrawn',
+  '_presales',
+  '_rates',
+  'owner',
+  'book',
+  'newOwner'
+]
+{
+  storage: [
+    {
+      astId: 38,
+      contract: ':UniqVesting',
+      label: '_bonus',
+      offset: 0,
+      slot: '0',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    {
+      astId: 55,
+      contract: ':UniqVesting',
+      label: '_initialized',
+      offset: 0,
+      slot: '1',
+      type: 't_mapping(t_address,t_bool)'
+    },
+    {
+      astId: 71,
+      contract: ':UniqVesting',
+      label: '_tokensTotal',
+      offset: 0,
+      slot: '2',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    {
+      astId: 87,
+      contract: ':UniqVesting',
+      label: '_pctWithdrawn',
+      offset: 0,
+      slot: '3',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    {
+      astId: 105,
+      contract: ':UniqVesting',
+      label: '_presales',
+      offset: 0,
+      slot: '4',
+      type: 't_array(t_address)dyn_storage'
+    },
+    {
+      astId: 121,
+      contract: ':UniqVesting',
+      label: '_rates',
+      offset: 0,
+      slot: '5',
+      type: 't_array(t_uint256)dyn_storage'
+    },
+    {
+      astId: 140,
+      contract: ':UniqVesting',
+      label: 'owner',
+      offset: 0,
+      slot: '6',
+      type: 't_address'
+    },
+    {
+      astId: 155,
+      contract: ':UniqVesting',
+      label: 'book',
+      offset: 0,
+      slot: '7',
+      type: 't_struct(Book)147_storage'
+    },
+    {
+      astId: 436,
+      contract: ':UniqVesting',
+      label: 'newOwner',
+      offset: 0,
+      slot: '10',
+      type: 't_address'
+    }
+  ],
+  types: {
+    t_address: { encoding: 'inplace', label: 'address', numberOfBytes: '20' },
+    't_array(t_address)dyn_storage': {
+      base: 't_address',
+      encoding: 'dynamic_array',
+      label: 'address[]',
+      numberOfBytes: '32'
+    },
+    't_array(t_uint256)dyn_storage': {
+      base: 't_uint256',
+      encoding: 'dynamic_array',
+      label: 'uint256[]',
+      numberOfBytes: '32'
+    },
+    t_bool: { encoding: 'inplace', label: 'bool', numberOfBytes: '1' },
+    't_mapping(t_address,t_bool)': {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => bool)',
+      numberOfBytes: '32',
+      value: 't_bool'
+    },
+    't_mapping(t_address,t_uint256)': {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => uint256)',
+      numberOfBytes: '32',
+      value: 't_uint256'
+    },
+    t_string_storage: { encoding: 'bytes', label: 'string', numberOfBytes: '32' },
+    't_struct(Book)147_storage': {
+      encoding: 'inplace',
+      label: 'struct UniqVesting.Book',
+      members: [Array],
+      numberOfBytes: '96'
+    },
+    t_uint256: { encoding: 'inplace', label: 'uint256', numberOfBytes: '32' }
+  }
+}
+[
+  {
+    var: {
+      astId: 38,
+      contract: ':UniqVesting',
+      label: '_bonus',
+      offset: 0,
+      slot: '0',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    type: {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => uint256)',
+      numberOfBytes: '32',
+      value: 't_uint256'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'mapping(address => uint256)',
+      value: [Function: getMappingValue],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  {
+    var: {
+      astId: 55,
+      contract: ':UniqVesting',
+      label: '_initialized',
+      offset: 0,
+      slot: '1',
+      type: 't_mapping(t_address,t_bool)'
+    },
+    type: {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => bool)',
+      numberOfBytes: '32',
+      value: 't_bool'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'mapping(address => bool)',
+      value: [Function: getMappingValue],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  {
+    var: {
+      astId: 71,
+      contract: ':UniqVesting',
+      label: '_tokensTotal',
+      offset: 0,
+      slot: '2',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    type: {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => uint256)',
+      numberOfBytes: '32',
+      value: 't_uint256'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'mapping(address => uint256)',
+      value: [Function: getMappingValue],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  {
+    var: {
+      astId: 87,
+      contract: ':UniqVesting',
+      label: '_pctWithdrawn',
+      offset: 0,
+      slot: '3',
+      type: 't_mapping(t_address,t_uint256)'
+    },
+    type: {
+      encoding: 'mapping',
+      key: 't_address',
+      label: 'mapping(address => uint256)',
+      numberOfBytes: '32',
+      value: 't_uint256'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'mapping(address => uint256)',
+      value: [Function: getMappingValue],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  {
+    var: {
+      astId: 105,
+      contract: ':UniqVesting',
+      label: '_presales',
+      offset: 0,
+      slot: '4',
+      type: 't_array(t_address)dyn_storage'
+    },
+    type: {
+      base: 't_address',
+      encoding: 'dynamic_array',
+      label: 'address[]',
+      numberOfBytes: '32'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000004',
+    decoded: {
+      type: 'address[]',
+      length: 4,
+      value: [Array],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000004'
+    }
+  },
+  {
+    var: {
+      astId: 121,
+      contract: ':UniqVesting',
+      label: '_rates',
+      offset: 0,
+      slot: '5',
+      type: 't_array(t_uint256)dyn_storage'
+    },
+    type: {
+      base: 't_uint256',
+      encoding: 'dynamic_array',
+      label: 'uint256[]',
+      numberOfBytes: '32'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000004',
+    decoded: {
+      type: 'uint256[]',
+      length: 4,
+      value: [Array],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000004'
+    }
+  },
+  {
+    var: {
+      astId: 140,
+      contract: ':UniqVesting',
+      label: 'owner',
+      offset: 0,
+      slot: '6',
+      type: 't_address'
+    },
+    type: { encoding: 'inplace', label: 'address', numberOfBytes: '20' },
+    slotData: '0x0000000000000000000000002b1cbcd0b1a9e8bcc82e86dd3fd5313d4692aade',
+    decoded: {
+      type: 'address',
+      value: '0x2b1cbcd0b1a9e8bcc82e86dd3fd5313d4692aade',
+      slotDataSelection: '0x2b1cbcd0b1a9e8bcc82e86dd3fd5313d4692aade'
+    }
+  },
+  {
+    var: {
+      astId: 155,
+      contract: ':UniqVesting',
+      label: 'book',
+      offset: 0,
+      slot: '7',
+      type: 't_struct(Book)147_storage'
+    },
+    type: {
+      encoding: 'inplace',
+      label: 'struct UniqVesting.Book',
+      members: [Array],
+      numberOfBytes: '96'
+    },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'struct UniqVesting.Book',
+      value: [Array],
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  {
+    var: {
+      astId: 436,
+      contract: ':UniqVesting',
+      label: 'newOwner',
+      offset: 0,
+      slot: '10',
+      type: 't_address'
+    },
+    type: { encoding: 'inplace', label: 'address', numberOfBytes: '20' },
+    slotData: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    decoded: {
+      type: 'address',
+      value: '0x0000000000000000000000000000000000000000',
+      slotDataSelection: '0x0000000000000000000000000000000000000000'
+    }
+  }
+]
+[
+  Promise {
+    {
+      type: 'address',
+      value: '0x1b32ba3d9a3f1e71e820f3317f07a877e46c7aa5',
+      slotDataSelection: '0x1b32ba3d9a3f1e71e820f3317f07a877e46c7aa5'
+    }
+  },
+  Promise {
+    {
+      type: 'address',
+      value: '0x59391ec74f45c504cdc1d6d07648207a4c0feb1d',
+      slotDataSelection: '0x59391ec74f45c504cdc1d6d07648207a4c0feb1d'
+    }
+  },
+  Promise {
+    {
+      type: 'address',
+      value: '0xee2d3891a8248908957db8de8dbb6e7ab136c063',
+      slotDataSelection: '0xee2d3891a8248908957db8de8dbb6e7ab136c063'
+    }
+  },
+  Promise {
+    {
+      type: 'address',
+      value: '0x232391765aacf9e075e66162ce4e453afcbf14b5',
+      slotDataSelection: '0x232391765aacf9e075e66162ce4e453afcbf14b5'
+    }
+  }
+]
+[
+  {
+    astId: 142,
+    contract: ':UniqVesting',
+    label: 'title',
+    offset: 0,
+    slot: '0x7',
+    type: 't_string_storage'
+  },
+  {
+    astId: 144,
+    contract: ':UniqVesting',
+    label: 'author',
+    offset: 0,
+    slot: '0x8',
+    type: 't_string_storage'
+  },
+  {
+    astId: 146,
+    contract: ':UniqVesting',
+    label: 'book_id',
+    offset: 0,
+    slot: '0x9',
+    type: 't_uint256'
+  }
+]
+[
+  Promise {
+    {
+      type: 'string',
+      value: '',
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  Promise {
+    {
+      type: 'string',
+      value: '',
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  },
+  Promise {
+    {
+      type: 'uint256',
+      value: '0',
+      slotDataSelection: '0x0000000000000000000000000000000000000000000000000000000000000000'
+    }
+  }
+]
+=======
+mapping(address => uint256) _bonus = <func> 		// slot(base)=0
+mapping(address => bool) _initialized = <func> 		// slot(base)=1
+mapping(address => uint256) _tokensTotal = <func> 		// slot(base)=2
+mapping(address => uint256) _pctWithdrawn = <func> 		// slot(base)=3
+address[] _presales[4] = [
+  {
+    "type": "address",
+    "value": "0x1b32ba3d9a3f1e71e820f3317f07a877e46c7aa5",
+    "slotDataSelection": "0x1b32ba3d9a3f1e71e820f3317f07a877e46c7aa5"
+  },
+  {
+    "type": "address",
+    "value": "0x59391ec74f45c504cdc1d6d07648207a4c0feb1d",
+    "slotDataSelection": "0x59391ec74f45c504cdc1d6d07648207a4c0feb1d"
+  },
+  {
+    "type": "address",
+    "value": "0xee2d3891a8248908957db8de8dbb6e7ab136c063",
+    "slotDataSelection": "0xee2d3891a8248908957db8de8dbb6e7ab136c063"
+  },
+  {
+    "type": "address",
+    "value": "0x232391765aacf9e075e66162ce4e453afcbf14b5",
+    "slotDataSelection": "0x232391765aacf9e075e66162ce4e453afcbf14b5"
+  }
+] 		// slot(base)=4
+uint256[] _rates[4] = [
+  {
+    "type": "uint256",
+    "value": "9588",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000002574"
+  },
+  {
+    "type": "uint256",
+    "value": "9084",
+    "slotDataSelection": "0x000000000000000000000000000000000000000000000000000000000000237c"
+  },
+  {
+    "type": "uint256",
+    "value": "7847",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000001ea7"
+  },
+  {
+    "type": "uint256",
+    "value": "7107",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000001bc3"
+  }
+] 		// slot(base)=5
+address owner = 0x2b1cbcd0b1a9e8bcc82e86dd3fd5313d4692aade 		// slot(base)=6
+struct UniqVesting.Book book = [
+  {
+    "type": "string",
+    "value": "",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  {
+    "type": "string",
+    "value": "",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  {
+    "type": "uint256",
+    "value": "0",
+    "slotDataSelection": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  }
+] 		// slot(base)=7
+address newOwner = 0x0000000000000000000000000000000000000000 		// slot(base)=10
+
