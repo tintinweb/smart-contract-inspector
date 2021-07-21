@@ -34,6 +34,7 @@ export default async (req, res) => {
       console.timeEnd('http-request')
     } catch (e) {
       console.error(e)
+      res.status(500).json( {error: e.message} )
     }
   } else {
     res.status(404).json({ })

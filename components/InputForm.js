@@ -65,6 +65,9 @@ const InputForm = ({ setSummary }) => {
         setSummary(response.data.summaryObj)
       } catch (e) {
         console.error(e)
+        if(typeof window !=="undefined"){
+          alert(`Ooopsie!\n\n${e.response.data.error}`);
+        }
       }
     }
   }
