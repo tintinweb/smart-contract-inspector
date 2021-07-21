@@ -65,6 +65,9 @@ const InputForm = ({ setSummary }) => {
         setSummary(response.data.summaryObj)
       } catch (e) {
         console.error(e)
+        if(typeof window !=="undefined"){
+          alert(`Ooopsie!\n\n${e.response.data.error}`);
+        }
       }
     }
   }
@@ -102,6 +105,9 @@ const InputForm = ({ setSummary }) => {
             </h3>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
               {`All of this can be usually found at https://etherscan.io/address/{contract address}`}
+            </p>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              <b>Note:</b> requires solidity &gt;= 0.5.13
             </p>
           </div>
 
