@@ -103,6 +103,9 @@ const InputForm = ({ setSummary }) => {
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
               {`All of this can be usually found at https://etherscan.io/address/{contract address}`}
             </p>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              <b>Note:</b> requires solidity &gt;= 0.5.13
+            </p>
           </div>
 
           <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">

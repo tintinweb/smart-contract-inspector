@@ -46,9 +46,9 @@ export default function Example() {
           <MainSelector/>
         </div>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-10">
-        🏆 Proud Winner of the <b>Developer Enablement</b> category at the <a href='https://consensys.net/blog/events-and-conferences/cypherpunk-2021-consensys-internal-hackathon/'>ConsensSys Cypherpunkt 2021 Hackathon</a>!
+        🏆 Proud Winner of the <b>Developer Enablement</b> category at the <a href='https://consensys.net/blog/developers/10-consensys-projects-from-cypherpunk-2021/'>ConsensSys Cypherpunkt 2021 Hackathon</a>!
         <br/><br/>
-        <a href='https://consensys.net/blog/events-and-conferences/cypherpunk-2021-consensys-internal-hackathon/'><img src='https://cdn.consensys.net/uploads/2021/06/02135601/Cypher-Punk-ConsenSys-Internal-Hackathon-2021.png'/></a>
+        <a href='https://consensys.net/blog/developers/10-consensys-projects-from-cypherpunk-2021/'><img src='https://cdn.consensys.net/uploads/2021/06/02135601/Cypher-Punk-ConsenSys-Internal-Hackathon-2021.png'/></a>
         </div>
       </main>
     </div>
