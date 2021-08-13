@@ -19,6 +19,29 @@ const InputForm = ({ setSummary }) => {
     console.log(contractName, contractAddress, sourceCode)
   }
 
+  const tryFlattenEtherscanResponse = (response) => {
+    let rexImports = /^(import\s+)[^;]+/igm
+    let result = response;
+    try {
+      let data = JSON.parse(response)
+      let imports = Object.entries(data).map(([name, src]) => [name, src.content.match(rexImports)]);
+
+      let contractsInOrder = imports.filter(([name, imp]) => !imp).map(([name, imp]) => name); //put all SU's with no deps first
+
+      for (let [name, imp] of imports.filter(([name, imp]) => imp)) { //all SU's with deps
+        let idx = Math.max(...imp.map(i => contractsInOrder.findIndex(io => i.includes(io))))
+        if(idx <=0 || idx +1 > contractsInOrder.length ){
+          contractsInOrder.push(name) //push at the end. unclear imports
+        } else {
+          contractsInOrder.splice(idx+1, 0, name)
+        }
+      }
+      result = contractsInOrder.map(contractName => `/* ${contractName} */\n\n${data[contractName].content.replace(rexImports, "// $& /* disabled by smart-contract-inspector */")}`).join('\n')
+
+    } catch (e) {console.error(e)}
+    return result;
+  }
+
   const handleFetchCodeFromEtherscan = async () => {
     try {
       const response = await axios.get(
@@ -32,7 +55,7 @@ const InputForm = ({ setSummary }) => {
           setContractName(ContractName)
         }
         if (SourceCode) {
-          setSourceCode(SourceCode)
+          setSourceCode(tryFlattenEtherscanResponse(SourceCode))
         }
       }
     } catch (e) {
