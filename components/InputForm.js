@@ -38,7 +38,7 @@ const InputForm = ({ setSummary }) => {
       }
       result = contractsInOrder.map(contractName => `/* ${contractName} */\n\n${data[contractName].content.replace(rexImports, "// $& /* disabled by smart-contract-inspector */")}`).join('\n')
 
-    } catch (e) {console.error(e)}
+    } catch {} //@silent
     return result;
   }
 
