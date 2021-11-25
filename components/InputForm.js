@@ -21,24 +21,39 @@ const InputForm = ({ setSummary }) => {
 
   const tryFlattenEtherscanResponse = (response) => {
     let rexImports = /^(import\s+)[^;]+/igm
+    let rexSpdx = /SPDX-License-Identifier:(\s[^$\n]+)/igm
+
     let result = response;
     try {
-      let data = JSON.parse(response)
+      let indata = JSON.parse(response)
+      let data = {}
+      for(let k in indata){
+        data[k.split("/").pop()] = indata[k];
+      }
+
       let imports = Object.entries(data).map(([name, src]) => [name, src.content.match(rexImports)]);
+      let spdxLics = Object.entries(data).map(([name, src]) => [name, src.content.match(rexSpdx)]);
+      let contractsInOrder = imports.filter(([name, imp]) => !imp || !imp.length).map(([name, imp]) => name); //put all SU's with no deps first
 
-      let contractsInOrder = imports.filter(([name, imp]) => !imp).map(([name, imp]) => name); //put all SU's with no deps first
-
-      for (let [name, imp] of imports.filter(([name, imp]) => imp)) { //all SU's with deps
+      //@todo - the sorting is not really working :/
+      for (let [name, imp] of imports.filter(([name, imp]) => imp && imp.length)) { //all SU's with deps
+        //@todo - unfortunate sequence
         let idx = Math.max(...imp.map(i => contractsInOrder.findIndex(io => i.includes(io))))
-        if(idx <=0 || idx +1 > contractsInOrder.length ){
+        if(idx <0 || idx +1 > contractsInOrder.length ){
           contractsInOrder.push(name) //push at the end. unclear imports
         } else {
           contractsInOrder.splice(idx+1, 0, name)
         }
       }
-      result = contractsInOrder.map(contractName => `/* ${contractName} */\n\n${data[contractName].content.replace(rexImports, "// $& /* disabled by smart-contract-inspector */")}`).join('\n')
+      result = contractsInOrder.map(
+        contractName => `/* ${contractName} */\n\n${data[contractName].content.replace(rexImports, "// $& /* disabled by smart-contract-inspector */").replace(rexSpdx, "// SPDX-LIC-IDENT-REMOVED /* disabled by smart-contract-inspector */")}`)
+        .join('\n')
 
-    } catch {} //@silent
+      result = `// ${spdxLics[0] && spdxLics[0][1] ? spdxLics[0][1] : "// SPDX-License-Identifier: Unknown"}
+${result}`
+
+    } catch {
+    } //@silent
     return result;
   }
 
@@ -54,7 +69,16 @@ const InputForm = ({ setSummary }) => {
         if (ContractName) {
           setContractName(ContractName)
         }
-        if (SourceCode) {
+
+        if (!SourceCode){
+          console.log("Nothing to do: No input Source Code.")
+          return;
+        }
+
+        if (SourceCode.startsWith('{{') && SourceCode.endsWith('}}')) { //etherscan api, wtf? 😬
+          let embeddedJson = SourceCode.substring(1,SourceCode.length-1)
+          setSourceCode(tryFlattenEtherscanResponse(JSON.stringify(JSON.parse(embeddedJson).sources))) //unpack this weird format
+        } else {
           setSourceCode(tryFlattenEtherscanResponse(SourceCode))
         }
       }
