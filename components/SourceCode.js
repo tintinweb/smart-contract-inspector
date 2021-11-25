@@ -43,7 +43,7 @@ const SourceCode = ({ sourceCode, setSourceCode }) => {
             onChange={(e) => setSourceCode(e.target.value)}
             id="contract_code"
             name="contract_code"
-            rows={sourceCode.split(/\r\n|\r|\n/).length}
+            rows={Math.min(sourceCode.split(/\r\n|\r|\n/).length, 100)}
             className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-xs border-gray-300 rounded-md"
             style={{
                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
@@ -57,7 +57,7 @@ const SourceCode = ({ sourceCode, setSourceCode }) => {
         ) : (
           <pre>
             <code
-              style={{ fontSize: '0.75rem', paddingLeft:"1rem" }}
+              style={{ fontSize: '0.75rem', paddingLeft:"1rem", maxHeight: '115rem' }}
               className="language-solidity text-xs max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
             >
               {sourceCode}
