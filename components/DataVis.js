@@ -110,7 +110,7 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
     const { SolidityInspector } = require('../lib/SolidityInspector')
     const ethers = require('ethers')
 
-    let c 
+    var c 
     if(!localProviderUrl){
       c = new SolidityInspector(
         new ethers.providers.InfuraProvider(
@@ -132,6 +132,16 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
     }
     const results = await c.getVars(address)
     const summaryObj = await summarizeObj(results)
+
+   var rawSlotSearchItem = {type: "🔎 slot => bytes32", label: "*** Raw Slot Lookup ***", length:null, slot:"0", value: rawSlotData}
+
+    async function rawSlotData(slot){
+      let p = await c.getStorageAt(address, slot);
+      return {...rawSlotSearchItem, value: p} ; // return clone
+    }
+
+    summaryObj.unshift(rawSlotSearchItem)
+
     window.summaryObj = summaryObj
     setDecodedData(summaryObj)
   }
