@@ -1,16 +1,18 @@
 import { useLayoutEffect, useState } from 'react'
 
-import {
-  ExternalLinkIcon,
-} from '@heroicons/react/solid'
+import { ExternalLinkIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import SourceCode from './SourceCode'
 import axios from 'axios'
 import { example } from '../lib/example'
 
-
-
-const InputForm = ({ setSummary }) => {
+const InputForm = ({
+  setSummary,
+  customRpcUrl,
+  setCustomRpcUrl,
+  network,
+  setNetwork,
+}) => {
   const [contractAddress, setContractAddress] = useState(
     '923be051f75b4f5494d45e2ce2dda6abb6c1713b'
   )
@@ -22,41 +24,67 @@ const InputForm = ({ setSummary }) => {
   }
 
   const tryFlattenEtherscanResponse = (response) => {
-    let rexImports = /^(import\s+)[^;]+/igm
-    let rexSpdx = /SPDX-License-Identifier:(\s[^$\n]+)/igm
+    let rexImports = /^(import\s+)[^;]+/gim
+    let rexSpdx = /SPDX-License-Identifier:(\s[^$\n]+)/gim
 
-    let result = response;
+    let result = response
     try {
       let indata = JSON.parse(response)
       let data = {}
-      for(let k in indata){
-        data[k.split("/").pop()] = indata[k];
+      for (let k in indata) {
+        data[k.split('/').pop()] = indata[k]
       }
 
-      let imports = Object.entries(data).map(([name, src]) => [name, src.content.match(rexImports)]);
-      let spdxLics = Object.entries(data).map(([name, src]) => [name, src.content.match(rexSpdx)]);
-      let contractsInOrder = imports.filter(([name, imp]) => !imp || !imp.length).map(([name, imp]) => name); //put all SU's with no deps first
+      let imports = Object.entries(data).map(([name, src]) => [
+        name,
+        src.content.match(rexImports),
+      ])
+      let spdxLics = Object.entries(data).map(([name, src]) => [
+        name,
+        src.content.match(rexSpdx),
+      ])
+      let contractsInOrder = imports
+        .filter(([name, imp]) => !imp || !imp.length)
+        .map(([name, imp]) => name) //put all SU's with no deps first
 
       //@todo - the sorting is not really working :/
-      for (let [name, imp] of imports.filter(([name, imp]) => imp && imp.length)) { //all SU's with deps
+      for (let [name, imp] of imports.filter(
+        ([name, imp]) => imp && imp.length
+      )) {
+        //all SU's with deps
         //@todo - unfortunate sequence
-        let idx = Math.max(...imp.map(i => contractsInOrder.findIndex(io => i.includes(io))))
-        if(idx <0 || idx +1 > contractsInOrder.length ){
+        let idx = Math.max(
+          ...imp.map((i) => contractsInOrder.findIndex((io) => i.includes(io)))
+        )
+        if (idx < 0 || idx + 1 > contractsInOrder.length) {
           contractsInOrder.push(name) //push at the end. unclear imports
         } else {
-          contractsInOrder.splice(idx+1, 0, name)
+          contractsInOrder.splice(idx + 1, 0, name)
         }
       }
-      result = contractsInOrder.map(
-        contractName => `/* ${contractName} */\n\n${data[contractName].content.replace(rexImports, "// $& /* disabled by smart-contract-inspector */").replace(rexSpdx, "// SPDX-LIC-IDENT-REMOVED /* disabled by smart-contract-inspector */")}`)
+      result = contractsInOrder
+        .map(
+          (contractName) =>
+            `/* ${contractName} */\n\n${data[contractName].content
+              .replace(
+                rexImports,
+                '// $& /* disabled by smart-contract-inspector */'
+              )
+              .replace(
+                rexSpdx,
+                '// SPDX-LIC-IDENT-REMOVED /* disabled by smart-contract-inspector */'
+              )}`
+        )
         .join('\n')
 
-      result = `// ${spdxLics[0] && spdxLics[0][1] ? spdxLics[0][1] : "// SPDX-License-Identifier: Unknown"}
+      result = `// ${
+        spdxLics[0] && spdxLics[0][1]
+          ? spdxLics[0][1]
+          : '// SPDX-License-Identifier: Unknown'
+      }
 ${result}`
-
-    } catch {
-    } //@silent
-    return result;
+    } catch {} //@silent
+    return result
   }
 
   const handleFetchCodeFromEtherscan = async () => {
@@ -72,14 +100,19 @@ ${result}`
           setContractName(ContractName)
         }
 
-        if (!SourceCode){
-          console.log("Nothing to do: No input Source Code.")
-          return;
+        if (!SourceCode) {
+          console.log('Nothing to do: No input Source Code.')
+          return
         }
 
-        if (SourceCode.startsWith('{{') && SourceCode.endsWith('}}')) { //etherscan api, wtf? 😬
-          let embeddedJson = SourceCode.substring(1,SourceCode.length-1)
-          setSourceCode(tryFlattenEtherscanResponse(JSON.stringify(JSON.parse(embeddedJson).sources))) //unpack this weird format
+        if (SourceCode.startsWith('{{') && SourceCode.endsWith('}}')) {
+          //etherscan api, wtf? 😬
+          let embeddedJson = SourceCode.substring(1, SourceCode.length - 1)
+          setSourceCode(
+            tryFlattenEtherscanResponse(
+              JSON.stringify(JSON.parse(embeddedJson).sources)
+            )
+          ) //unpack this weird format
         } else {
           setSourceCode(tryFlattenEtherscanResponse(SourceCode))
         }
@@ -114,8 +147,8 @@ ${result}`
         setSummary(response.data.summaryObj)
       } catch (e) {
         console.error(e)
-        if(typeof window !=="undefined"){
-          alert(`Ooopsie!\n\n${e.response.data.error}`);
+        if (typeof window !== 'undefined') {
+          alert(`Ooopsie!\n\n${e.response.data.error}`)
         }
       }
     }
@@ -159,11 +192,29 @@ ${result}`
               <b>Note:</b> requires solidity &gt;= 0.5.13
             </p>
           </div>
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Network
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <div className="max-w-lg rounded-md">
+                <NetworkSelector
+                  network={network}
+                  setNetwork={setNetwork}
+                  customRpcUrl={customRpcUrl}
+                  setCustomRpcUrl={setCustomRpcUrl}
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
               <label
-                htmlFor="username"
+                htmlFor="contractAddress"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Contract Address
@@ -220,6 +271,7 @@ ${result}`
                 </div>
               </div>
             </div>
+
             <SourceCode sourceCode={sourceCode} setSourceCode={setSourceCode} />
           </div>
         </div>
@@ -247,3 +299,86 @@ ${result}`
   )
 }
 export default InputForm
+
+/*
+  This example requires Tailwind CSS v2.0+ 
+  
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+*/
+const notificationMethods = [
+  { id: 'mainnet', title: 'Email' },
+  { id: 'other', title: 'Phone (SMS)' },
+]
+
+const NetworkSelector = ({
+  network,
+  setNetwork,
+  customRpcUrl,
+  setCustomRpcUrl,
+}) => {
+  return (
+    <div>
+      <fieldset className="mt-4">
+        <legend className="sr-only">Notification method</legend>
+        <div className="space-y-4">
+          <div key={'rpc-mainnet'} className="flex items-center">
+            <input
+              id={'rpc-mainnet'}
+              name="notification-method"
+              type="radio"
+              onClick={() => {
+                setNetwork('mainnet')
+              }}
+              checked={network === 'mainnet'}
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+            />
+            <label
+              htmlFor={'rpc-mainnet'}
+              className="ml-3 block text-sm font-medium text-gray-700"
+            >
+              {'Mainnet'}
+            </label>
+          </div>
+          <div key={'rpc-other'} className="flex items-center">
+            <input
+              id={'rpc-other'}
+              name="notification-method"
+              type="radio"
+              onClick={() => {
+                setNetwork('other')
+              }}
+              checked={network === 'other'}
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+            />
+            <label
+              htmlFor={'rpc-other'}
+              className="ml-3 block text-sm font-medium text-gray-700"
+            >
+              {'Custom RPC Url'}
+            </label>
+          </div>
+          <input
+            value={customRpcUrl}
+            type="text"
+            name="contract_name"
+            id="contract_name"
+            onChange={(e) => setCustomRpcUrl(e.target.value)}
+            disabled={network !== 'other'}
+            className=" disabled:opacity-30 flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+          />
+        </div>
+      </fieldset>
+    </div>
+  )
+}

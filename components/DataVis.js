@@ -101,7 +101,7 @@ const renderValue = ({ variable, nested=false }) => {
   }
 }
 
-const DataVis = ({ data, localProviderUrl = undefined }) => {
+const DataVis = ({ data, rpcUrl = undefined, customNetwork }) => {
   const { storageLayout, address } = data
   console.log('Decoding data')
   const [decodedData, setDecodedData] = useState([])
@@ -111,7 +111,7 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
     const ethers = require('ethers')
 
     var c 
-    if(!localProviderUrl){
+    if(!customNetwork && rpcUrl){
       c = new SolidityInspector(
         new ethers.providers.InfuraProvider(
           'homestead',
@@ -123,7 +123,7 @@ const DataVis = ({ data, localProviderUrl = undefined }) => {
     } else {
       c = new SolidityInspector(
         new ethers.providers.WebSocketProvider (
-          localProviderUrl
+          rpcUrl
         ),
         storageLayout,
         address
