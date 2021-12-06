@@ -7,13 +7,8 @@ import { FileSelector } from '../components/FileSelector'
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import InputForm from '../components/InputForm'
+import { blockExplorers } from '../lib/utils'
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
 const navigation = [{ name: 'Dashboard', href: '#', current: true }]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -29,6 +24,11 @@ export default function Example() {
   const [summary, setSummary] = useState()
   const [customRpcUrl, setCustomRpcUrl] = useState('wss://your-custom-rpc-here')
   const [network, setNetwork] = useState('mainnet')
+
+  const [blockExplorer, setBlockExplorer] = useState('mainnet')
+  const [customBlockExplorerUrl, setCustomBlockExplorerUrl] = useState(
+    'https://block-explorer-here'
+  )
 
   return (
     <div className="py-10">
@@ -47,6 +47,10 @@ export default function Example() {
             setCustomRpcUrl={setCustomRpcUrl}
             network={network}
             setNetwork={setNetwork}
+            blockExplorer={blockExplorer}
+            setBlockExplorer={setBlockExplorer}
+            customBlockExplorerUrl={customBlockExplorerUrl}
+            setCustomBlockExplorerUrl={setCustomBlockExplorerUrl}
           />
           {summary && (
             <DataVis

@@ -4,6 +4,7 @@ import { ExternalLinkIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import SourceCode from './SourceCode'
 import axios from 'axios'
+import { blockExplorers } from '../lib/utils'
 import { example } from '../lib/example'
 
 const InputForm = ({
@@ -12,6 +13,10 @@ const InputForm = ({
   setCustomRpcUrl,
   network,
   setNetwork,
+  blockExplorer,
+  setBlockExplorer,
+  customBlockExplorerUrl,
+  setCustomBlockExplorerUrl,
 }) => {
   const [contractAddress, setContractAddress] = useState(
     '923be051f75b4f5494d45e2ce2dda6abb6c1713b'
@@ -90,7 +95,11 @@ ${result}`
   const handleFetchCodeFromEtherscan = async () => {
     try {
       const response = await axios.get(
-        `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
+        `${
+          blockExplorer.id !== 'mainnet'
+            ? customBlockExplorerUrl
+            : blockExplorers.mainnet.url
+        }/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
       )
 
       if (response?.data?.result?.length && response.data.result.length > 0) {
@@ -211,6 +220,27 @@ ${result}`
             </div>
           </div>
 
+          {network === 'other' ? (
+            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+              >
+                Block Explorer (require to automatically load source code)
+              </label>
+              <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <div className="max-w-lg rounded-md">
+                  <BlockExplorerSelector
+                    blockExplorer={blockExplorer}
+                    setBlockExplorer={setBlockExplorer}
+                    customBlockExplorerUrl={customBlockExplorerUrl}
+                    setCustomBlockExplorerUrl={setCustomBlockExplorerUrl}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : undefined}
+
           <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
               <label
@@ -300,27 +330,6 @@ ${result}`
 }
 export default InputForm
 
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-const notificationMethods = [
-  { id: 'mainnet', title: 'Email' },
-  { id: 'other', title: 'Phone (SMS)' },
-]
-
 const NetworkSelector = ({
   network,
   setNetwork,
@@ -334,10 +343,10 @@ const NetworkSelector = ({
         <div className="space-y-4">
           <div key={'rpc-mainnet'} className="flex items-center">
             <input
-              id={'rpc-mainnet'}
-              name="notification-method"
+              id={'rpc-input-mainnet'}
+              name={'rpc-input-mainnet'}
               type="radio"
-              onClick={() => {
+              onChange={() => {
                 setNetwork('mainnet')
               }}
               checked={network === 'mainnet'}
@@ -352,10 +361,10 @@ const NetworkSelector = ({
           </div>
           <div key={'rpc-other'} className="flex items-center">
             <input
-              id={'rpc-other'}
-              name="notification-method"
+              id={'rpc-input-other'}
+              name={'rpc-input-other'}
               type="radio"
-              onClick={() => {
+              onChange={() => {
                 setNetwork('other')
               }}
               checked={network === 'other'}
@@ -371,10 +380,60 @@ const NetworkSelector = ({
           <input
             value={customRpcUrl}
             type="text"
-            name="contract_name"
-            id="contract_name"
+            name="input-custom-rpc-url"
+            id="input-custom-rpc-url"
             onChange={(e) => setCustomRpcUrl(e.target.value)}
             disabled={network !== 'other'}
+            className=" disabled:opacity-30 flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
+          />
+        </div>
+      </fieldset>
+    </div>
+  )
+}
+
+const BlockExplorerSelector = ({
+  blockExplorer,
+  setBlockExplorer,
+  customBlockExplorerUrl,
+  setCustomBlockExplorerUrl,
+}) => {
+  return (
+    <div>
+      <fieldset className="mt-4">
+        <legend className="sr-only">Notification method</legend>
+        <div className="space-y-4">
+          {Object.keys(blockExplorers).map((key) => {
+            const { id, label, url } = blockExplorers[key]
+
+            return (
+              <div key={'rpc-' + id} className="flex items-center">
+                <input
+                  id={'rpc-selector-item-' + id}
+                  name={'rpc-selector-item-' + id}
+                  type="radio"
+                  onChange={() => {
+                    setBlockExplorer(id)
+                  }}
+                  checked={blockExplorer === id}
+                  className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                />
+                <label
+                  htmlFor={'rpc-mainnet'}
+                  className="ml-3 block text-sm font-medium text-gray-700"
+                >
+                  {label}
+                </label>
+              </div>
+            )
+          })}
+          <input
+            value={customBlockExplorerUrl}
+            type="text"
+            name={'rpc-custom-url-input'}
+            id={'rpc-custom-url-input'}
+            onChange={(e) => setCustomBlockExplorerUrl(e.target.value)}
+            disabled={blockExplorer !== 'other'}
             className=" disabled:opacity-30 flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
           />
         </div>
