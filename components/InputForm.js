@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
@@ -13,10 +13,8 @@ const InputForm = ({
   setCustomRpcUrl,
   network,
   setNetwork,
-  blockExplorer,
-  setBlockExplorer,
-  customBlockExplorerUrl,
-  setCustomBlockExplorerUrl,
+  blockExplorerUrl,
+  setBlockExplorerUrl,
 }) => {
   const [contractAddress, setContractAddress] = useState(
     '923be051f75b4f5494d45e2ce2dda6abb6c1713b'
@@ -95,11 +93,8 @@ ${result}`
   const handleFetchCodeFromEtherscan = async () => {
     try {
       const response = await axios.get(
-        `${
-          blockExplorer.id !== 'mainnet'
-            ? customBlockExplorerUrl
-            : blockExplorers.mainnet.url
-        }/api?module=contract&action=getsourcecode&address=0x${contractAddress}`
+        `${blockExplorerUrl}/api?module=contract&action=getsourcecode&address=0x${contractAddress}`,
+        {headers: {'Content-Type': 'application/json'}}
       )
 
       if (response?.data?.result?.length && response.data.result.length > 0) {
@@ -231,10 +226,8 @@ ${result}`
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <div className="max-w-lg rounded-md">
                   <BlockExplorerSelector
-                    blockExplorer={blockExplorer}
-                    setBlockExplorer={setBlockExplorer}
-                    customBlockExplorerUrl={customBlockExplorerUrl}
-                    setCustomBlockExplorerUrl={setCustomBlockExplorerUrl}
+                    blockExplorerUrl={blockExplorerUrl}
+                    setBlockExplorerUrl={setBlockExplorerUrl}
                   />
                 </div>
               </div>
@@ -392,12 +385,12 @@ const NetworkSelector = ({
   )
 }
 
-const BlockExplorerSelector = ({
-  blockExplorer,
-  setBlockExplorer,
-  customBlockExplorerUrl,
-  setCustomBlockExplorerUrl,
-}) => {
+const BlockExplorerSelector = ({ blockExplorerUrl, setBlockExplorerUrl }) => {
+  const [blockExplorer, setBlockExplorer] = useState('mainnet')
+
+  useEffect(() => {
+    setBlockExplorerUrl(blockExplorers[blockExplorer].url)
+  }, [blockExplorer])
   return (
     <div>
       <fieldset className="mt-4">
@@ -428,11 +421,11 @@ const BlockExplorerSelector = ({
             )
           })}
           <input
-            value={customBlockExplorerUrl}
+            value={blockExplorerUrl}
             type="text"
             name={'rpc-custom-url-input'}
             id={'rpc-custom-url-input'}
-            onChange={(e) => setCustomBlockExplorerUrl(e.target.value)}
+            onChange={(e) => setBlockExplorerUrl(e.target.value)}
             disabled={blockExplorer !== 'other'}
             className=" disabled:opacity-30 flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
           />

@@ -24,9 +24,7 @@ export default function Example() {
   const [summary, setSummary] = useState()
   const [customRpcUrl, setCustomRpcUrl] = useState('wss://your-custom-rpc-here')
   const [network, setNetwork] = useState('mainnet')
-
-  const [blockExplorer, setBlockExplorer] = useState('mainnet')
-  const [customBlockExplorerUrl, setCustomBlockExplorerUrl] = useState(
+  const [blockExplorerUrl, setBlockExplorerUrl] = useState(
     'https://block-explorer-here'
   )
 
@@ -47,10 +45,8 @@ export default function Example() {
             setCustomRpcUrl={setCustomRpcUrl}
             network={network}
             setNetwork={setNetwork}
-            blockExplorer={blockExplorer}
-            setBlockExplorer={setBlockExplorer}
-            customBlockExplorerUrl={customBlockExplorerUrl}
-            setCustomBlockExplorerUrl={setCustomBlockExplorerUrl}
+            blockExplorerUrl={blockExplorerUrl}
+            setBlockExplorerUrl={setBlockExplorerUrl}
           />
           {summary && (
             <DataVis
