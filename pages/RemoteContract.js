@@ -25,7 +25,7 @@ export default function Example() {
   const [customRpcUrl, setCustomRpcUrl] = useState('wss://your-custom-rpc-here')
   const [network, setNetwork] = useState('mainnet')
   const [blockExplorerUrl, setBlockExplorerUrl] = useState(
-    'https://block-explorer-here'
+    'https://api.etherscan.io'
   )
 
   return (
